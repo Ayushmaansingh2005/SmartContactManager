@@ -18,7 +18,13 @@
                         <h1 class="text-2xl font-semibold">Add New Contacts.</h1>
                         <p class="text-gray-500">This contact will be stored on cloud and you will contact through here.</p>
                         
-                        <form action="" class="mt-5 text-left">
+                        <form  
+                        class="mt-5 text-left"
+                        data-th-action="@{/user/contacts/add}"
+                        data-th-object="${contactForm}"
+                        method="post"
+                        
+                        >
                             <div >
                                 <label for="contac_name" class="block mb-2.5 text-sm font-medium text-heading">Contact Name</label>
                                 <div class="relative">
@@ -26,8 +32,9 @@
                                         <i class="fa-solid fa-user w-4 h-4"></i>
                                     </div>
                                     <input 
+                                        data-th-field="*{name}"
                                         type="text" 
-                                        id="contact_name" 
+                                    
                                         class="block w-full ps-9 pe-3 py-2.5 
                                                 bg-gray-100 dark:bg-gray-800 
                                                border-2 border-green-600 dark:border-green-500
@@ -48,7 +55,7 @@
                                     </div>
                                     <input 
                                         type="text" 
-                                        id="contact_email" 
+                                       data-th-field="*{email}"
                                         class="block w-full ps-9 pe-3 py-2.5 
                                                 bg-gray-100 dark:bg-gray-800 
                                                 border-2 border-green-600 dark:border-green-500
@@ -69,7 +76,7 @@
                                     </div>
                                     <input 
                                         type="text" 
-                                        id="contact_number" 
+                                        data-th-field="*{phoneNumber}"
                                         class="block w-full ps-9 pe-3 py-2.5 
                                                 bg-gray-100 dark:bg-gray-800 
                                                 border-2 border-green-600 dark:border-green-500
@@ -85,14 +92,14 @@
                             <div class="mt-4">
                                 
                                     <label for="contact_address" class="block mb-2.5 text-sm font-medium text-heading">Contact Address</label>
-                                    <textarea id="contact_adress" rows="4" class="bg-gray-100 border-2 border-green-600 dark:border-green-500 text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full p-3.5 shadow-xs placeholder:text-body dark:bg-gray-800" placeholder="Write contact,s address here..."></textarea>
+                                    <textarea data-th-field="*{address}" rows="4" class="bg-gray-100 border-2 border-green-600 dark:border-green-500 text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full p-3.5 shadow-xs placeholder:text-body dark:bg-gray-800" placeholder="Write contact,s address here..."></textarea>
 
                             </div>
 
                             <div class="mt-4">
                                 
                                     <label for="contact_description" class="block mb-2.5 text-sm font-medium text-heading">Contact Description</label>
-                                    <textarea id="contact_description" rows="4" class="bg-gray-100 border-2 border-green-600 dark:border-green-500 text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full p-3.5 shadow-xs placeholder:text-body dark:bg-gray-800" placeholder="Write about your contact here..."></textarea>
+                                    <textarea data-th-field="*{description}" rows="4" class="bg-gray-100 border-2 border-green-600 dark:border-green-500 text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full p-3.5 shadow-xs placeholder:text-body dark:bg-gray-800" placeholder="Write about your contact here..."></textarea>
                             </div>
 
                             <div class="flex gap-4">
@@ -105,7 +112,7 @@
                                             </div>
                                             <input 
                                                 type="text" 
-                                                id="facebook_link" 
+                                                data-th-field="*{facebookLink}" 
                                                 class="block w-full ps-9 pe-3 py-2.5 
                                                         bg-gray-100 dark:bg-gray-800 
                                                         border-2 border-green-600 dark:border-green-500
@@ -127,7 +134,7 @@
                                             </div>
                                             <input 
                                                 type="text" 
-                                                id="linkdin_link" 
+                                                data-th-field="*{linkdinLink}"
                                                 class="block w-full ps-9 pe-3 py-2.5 
                                                         bg-gray-100 dark:bg-gray-800 
                                                         border-2 border-green-600 dark:border-green-500
@@ -149,7 +156,7 @@
 
                             <div class="flex items-center mt-4">
                                     <input
-                                        id="checkbox"
+                                        data-th-field="*{favourite}"
                                         type="checkbox"
                                         class="w-4 h-4
                                             rounded-xs
