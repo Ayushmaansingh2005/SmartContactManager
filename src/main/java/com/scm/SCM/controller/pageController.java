@@ -114,7 +114,7 @@ public class pageController {
         //redirect to login page
 
         //message notificaation
-       Message message= Message.builder().content("Registration successfull").type(MessageType.blue).build();
+        Message message= Message.builder().content("Registration successfull").type(MessageType.blue).build();
         session.setAttribute("message",message);
         return"redirect:/singUp";
     }

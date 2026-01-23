@@ -17,6 +17,8 @@
                     <div class="bg-neutral-primary-soft block  p-6 border-2 border-green-600 dark:border-green-500 rounded-base shadow-xs hover:bg-neutral-secondary-medium">
                         <h1 class="text-2xl font-semibold">Add New Contacts.</h1>
                         <p class="text-gray-500">This contact will be stored on cloud and you will contact through here.</p>
+
+                        <div data-th-replace="message::messagebox"></div>
                         
                         <form  
                         class="mt-5 text-left"
@@ -45,6 +47,10 @@
                                                 placeholder:text-body  dark:placeholder-white-400" 
                                         placeholder="name Xyz....">
                                 </div>
+                                <p class="text-red-500"
+                                data-th-if="${#fields.hasErrors('name')}"
+                                data-th-errors="*{name}"
+                                >Invalid Name</p>
                             </div>
 
                             <div class="mt-4" >
@@ -66,6 +72,10 @@
                                                 placeholder:text-body  dark:placeholder-white-400" 
                                         placeholder="name113@gamil.com....">
                                 </div>
+                                <p class="text-red-500"
+                                data-th-if="${#fields.hasErrors('email')}"
+                                data-th-errors="*{email}"
+                                ></p>
                             </div>
 
                             <div class="mt-4" >
@@ -87,6 +97,10 @@
                                                 placeholder:text-body  dark:placeholder-white-400" 
                                         placeholder="991122...">
                                 </div>
+                                <p class="text-red-500"
+                                data-th-if="${#fields.hasErrors('phoneNumber')}"
+                                data-th-errors="*{phoneNumber}"
+                                ></p>
                             </div>
 
                             <div class="mt-4">
@@ -95,6 +109,10 @@
                                     <textarea data-th-field="*{address}" rows="4" class="bg-gray-100 border-2 border-green-600 dark:border-green-500 text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full p-3.5 shadow-xs placeholder:text-body dark:bg-gray-800" placeholder="Write contact,s address here..."></textarea>
 
                             </div>
+                            <p class="text-red-500"
+                                data-th-if="${#fields.hasErrors('address')}"
+                                data-th-errors="*{address}"
+                                ></p>
 
                             <div class="mt-4">
                                 

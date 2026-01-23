@@ -17,7 +17,7 @@
                dark:bg-gray-800 dark:text-gray-100 dark:border-blue-500
                transition hover:shadow-md text-left">
 
-        <div data-th-replace="message::messagebox"></div>       
+        
         <h5
           class="mb-3 text-2xl font-semibold tracking-tight leading-8
                  text-gray-900 dark:text-white">
@@ -27,6 +27,9 @@
           Start storing and managing all your contacts with us. Enjoy a secure
           environment and an awesome interface to manage everything easily.
         </p>
+
+          <div data-th-replace="message::messagebox"></div>       
+        
 
         <form
         data-th-action="@{'/do-register'}" 
