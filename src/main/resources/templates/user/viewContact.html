@@ -1,12 +1,136 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" th:replace="~{base :: parent(~{::#content},~{::title},~{::script})}">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>view contact</title>
+    <title >All your Contacts</title>
 </head>
 <body>
-       <h1> this is user view COntact page</h1>
-    
+
+    <div id="content">
+        <!-- if user is logged in then show the side bar else not show side bar -->
+        <div th:if="${loggedinUser}">
+            <div data-th-replace="~{user/sidebar::sidebar}"></div>
+        </div>
+    <div  class="p-8 mt-10 sm:pl-54" style="height: 1000px">    
+        <h1 class="text-5xl mb-2"> All your Contacts </h1>
+        <p>List of Contacts that is related to you. </p>
+
+        <div class="contacts_container mt-4 ">
+                
+
+                <div class="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border-3 border-green-600 dark:border-green-500">
+                    <div class="flex items-center justify-between flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 p-4">
+                        <div>
+                        <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="inline-flex items-center justify-center text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading focus:ring-4 focus:ring-neutral-tertiary shadow-xs font-medium leading-5 rounded-base text-sm px-3 py-2 focus:outline-none" type="button">
+                            Action
+                            <svg class="w-4 h-4 ms-1.5 -me-0.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 9-7 7-7-7"/></svg>
+                        </button>
+                        <!-- Dropdown menu -->
+                        <div id="dropdown" class="z-10 hidden bg-neutral-primary-medium border border-default-medium rounded-base shadow-lg w-32">
+                            <ul class="p-2 text-sm text-body font-medium" aria-labelledby="dropdownDefaultButton">
+                            <li>
+                                <a href="#" class="inline-flex items-center w-full p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded">Reward</a>
+                            </li>
+                            <li>
+                                <a href="#" class="inline-flex items-center w-full p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded">Promote</a>
+                            </li>
+                            <li>
+                                <a href="#" class="inline-flex items-center w-full p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded">Archive</a>
+                            </li>
+                            <li>
+                                <a href="#" class="inline-flex items-center w-full p-2 text-fg-danger hover:bg-neutral-tertiary-medium rounded">Delete</a>
+                            </li>
+                            </ul>
+                        </div>
+                        </div>
+                        <label for="input-group-1" class="sr-only">Search</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                                <svg class="w-4 h-4 text-body" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"/></svg>
+                            </div>
+                            <input type="text" id="input-group-1" class="block w-full max-w-96 ps-9 pe-3 py-2 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body" placeholder="Search">
+                        </div>
+                    </div>
+                    <table class="w-full text-sm text-left rtl:text-right text-body">
+                        <thead class="text-sm text-body bg-neutral-secondary-medium border-b border-t border-default-medium">
+                            <tr>
+                               
+                                <th scope="col" class="px-6 py-3 font-medium">
+                                    Name
+                                </th>
+                                <th scope="col" class="px-6 py-3 font-medium">
+                                    Phone
+                                </th>
+                                <th scope="col" class="px-6 py-3 font-medium">
+                                    Links
+                                </th>
+                                <th scope="col" class="px-6 py-3 font-medium">
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                             data-th-object="${c}"
+                             data-th-each="c:${contacts}"
+                             class="bg-white border-b border-gray-300 dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                
+                                <th scope="row" class="flex items-center px-6 py-4 text-heading whitespace-nowrap">
+                                    <img 
+                                    onerror="this.src='data:image/jpeg;base64,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'"
+                                    data-th-src="*{picture}"
+                                    class="w-10 h-10 rounded-full" src="/docs/images/people/profile-picture-1.jpg" alt="Jese image">
+                                    <div class="ps-3">
+                                        <div 
+                                            data-th-text="*{name}"
+                                            class="text-base font-semibold">Neil Sims
+                                        </div>
+                                        <div
+                                            data-th-text="*{email}" 
+                                            class="font-normal text-body">neil.sims@flowbite.com
+                                        </div>
+                                    </div>  
+                                </th>
+                                <td class="px-6 py-4">
+                                   <i class="fa-solid fa-phone w-4 h-4"></i>
+                                    <span data-th-text="*{phoneNumber}"></span>
+                                
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center">
+                                            <div data-th-if="*{favourite}" >
+                                               <i class="fa-solid fa-star text-orange-500 "></i>
+                                            </div> 
+                                         <a class="pl-2" data-th-href="@{*{linkedInLink}}" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a>
+                                         <a class="p-2" data-th-href="@{*{websiteLink}}" target="_blank"><i class="fa-brands fa-facebook"></i></i></a>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4">
+                                   <div>
+                                        <a href="" class="p-1">
+                                            <i class="fa-solid w-6 h-6 fa-trash"></i>
+                                        </a>
+                                        <a href="" class="p-1">
+                                            <i class="fa-solid fa-pen "></i>
+                                        </a>
+                                        <a href="" class="p-1">
+                                            <i class="fa-solid fa-eye"></i>
+                                        </a>
+
+                                   </div>
+                                </td>
+                            </tr>
+                          
+                            
+                           
+                          
+                        </tbody>
+                    </table>
+                </div>
+
+        </div>
+    </div>
+    <script>
+        console.log("this is a profile page page")
+    </script>
 </body>
 </html>

@@ -36,7 +36,7 @@ public class ContactForm {
     private String facebookLink;
     private String linkdinLink;
 
-    private MultipartFile profileImage;
+    private MultipartFile contact_image;
 
 
 }

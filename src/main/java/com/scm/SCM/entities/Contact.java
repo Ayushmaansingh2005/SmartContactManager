@@ -13,9 +13,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
+
 import java.util.*;
 
-
+@ToString
 @Getter
 @Setter
 @AllArgsConstructor
@@ -36,6 +38,8 @@ public class Contact {
     private Boolean favourite=false;
     private String websiteLink;
     private String linkedInLink;
+
+    private String cloudinaryImagePublicId;
     //priavte List<String> socialLinks = new ArrayList<>();
     @ManyToOne
     private User user;

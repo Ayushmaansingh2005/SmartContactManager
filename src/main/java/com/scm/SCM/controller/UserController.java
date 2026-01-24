@@ -42,14 +42,6 @@ public class UserController {
         return "user/profile";
     }
 
-
-    //user view contact page
-    @RequestMapping(value="/viewContact", method=RequestMethod.GET)
-    public String userViewContact() {
-        return "user/viewContact";
-    }
-
-
     //user edit contact page
     @RequestMapping(value="/editContact", method=RequestMethod.GET)
     public String userEditContact() {
