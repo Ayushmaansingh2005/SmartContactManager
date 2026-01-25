@@ -1,10 +1,10 @@
 package com.scm.SCM.controller;
 
-import java.util.List;
 import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,10 +12,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.scm.SCM.entities.Contact;
 import com.scm.SCM.entities.User;
 import com.scm.SCM.forms.ContactForm;
+import com.scm.SCM.helpers.AppConstants;
 import com.scm.SCM.helpers.Helper;
 import com.scm.SCM.helpers.Message;
 import com.scm.SCM.helpers.MessageType;
@@ -109,15 +111,22 @@ public class ContactController {
 
     //view contacts
     @RequestMapping
-    public String viewContacts(Authentication authentication , Model model){
+    public String viewContacts(
+        @RequestParam(value="page",defaultValue="0") int page,
+        @RequestParam(value="size" , defaultValue="10") int size,
+        @RequestParam(value="sortBy" , defaultValue="name") String sortBy,
+        @RequestParam(value="direction" , defaultValue="asc") String direction,Authentication authentication , Model model){
+
+
         String username = Helper.getEmailOfLoggedInUser(authentication);
         User user = userServices.getUserByEmail(username);
 
-       List<Contact> contacts =  contactService.getByUser(user);
+       Page<Contact> pageContacts =  contactService.getByUser(user,page,size,sortBy,direction);
     //   for (Contact c : contacts) {
     //         System.out.println("contacts: " + c);
     //     }
-       model.addAttribute("contacts",contacts);
+       model.addAttribute("pageContacts",pageContacts);
+       model.addAttribute("pageSize",AppConstants.PAGE_SIZE);
        return "user/viewContact";
     }
     

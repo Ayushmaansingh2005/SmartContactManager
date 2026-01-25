@@ -2,6 +2,8 @@ package com.scm.SCM.repositries;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -11,7 +13,7 @@ import com.scm.SCM.entities.User;
 
 public interface ContactRepo extends JpaRepository<Contact, String>{
     //find the contact by users
-    List<Contact> findByUser(User user);
+    Page<Contact> findByUser(User user ,Pageable pageable);
 
 
     //custom query method

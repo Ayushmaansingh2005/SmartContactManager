@@ -71,7 +71,7 @@
                         <tbody>
                             <tr
                              data-th-object="${c}"
-                             data-th-each="c:${contacts}"
+                             data-th-each="c:${pageContacts.getContent()}"
                              class="bg-white border-b border-gray-300 dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                 
                                 <th scope="row" class="flex items-center px-6 py-4 text-heading whitespace-nowrap">
@@ -119,12 +119,41 @@
                                    </div>
                                 </td>
                             </tr>
-                          
-                            
-                           
-                          
+                                                 
                         </tbody>
                     </table>
+                    <!-- pagination component -->
+                    <div class="pagination_container bg-white  dark:bg-gray-800 p-4 flex justify-center">
+
+                       <nav aria-label="Page navigation example">
+                            <ul class="flex -space-x-px text-sm">
+                                <li data-th-unless="${pageContacts.first}">
+                                <a 
+                                    data-th-href="@{'/user/contacts?size='+${pageSize}+'&page='+${pageContacts.number-1}}"
+                                    href="#" class="flex items-center justify-center text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading font-medium rounded-s-base text-sm w-10 h-10 focus:outline-none">
+                                    <span class="sr-only">Previous</span>
+                                    <svg class="w-4 h-4 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 19-7-7 7-7"/></svg>
+                                </a>
+                                </li>
+                                <li  data-th-each="index : ${#numbers.sequence(0,pageContacts.totalPages-1)}"
+                                     data-th-classappend="${index==pageContacts.number?'bg-blue-100 dark:bg-gray-500': 'bg-white dark:bg-gray-800'}"
+                                >
+                                    <a data-th-href="@{'/user/contacts?size='+${pageSize}+'&page='+${index}}" class="flex items-center justify-center text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading font-medium text-sm w-10 h-10 focus:outline-none">
+
+                                            <span data-th-text="${index+1}"></span>
+                                    </a>
+                                </li>
+                                
+                                <li data-th-unless="${pageContacts.last}">
+                                    <a data-th-href="@{'/user/contacts?size='+${pageSize}+'&page='+${pageContacts.number+1}}" class="flex items-center justify-center text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading font-medium rounded-e-base text-sm w-10 h-10 focus:outline-none">
+                                        <span class="sr-only">Next</span>
+                                        <svg class="w-4 h-4 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7"/></svg>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav> 
+
+                    </div>
                 </div>
 
         </div>
