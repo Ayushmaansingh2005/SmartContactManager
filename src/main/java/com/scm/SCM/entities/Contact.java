@@ -1,6 +1,8 @@
 package com.scm.SCM.entities;
 import java.util.ArrayList;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,6 +16,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+
 
 import java.util.*;
 
@@ -42,7 +45,10 @@ public class Contact {
     private String cloudinaryImagePublicId;
     //priavte List<String> socialLinks = new ArrayList<>();
     @ManyToOne
+    @JsonIgnore
     private User user;
+
+
     @OneToMany(mappedBy="contact",cascade=CascadeType.ALL,fetch=FetchType.EAGER)
     private List<Sociallink> links =  new ArrayList<>();
 

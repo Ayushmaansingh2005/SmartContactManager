@@ -1,12 +1,174 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" th:replace="~{base :: parent(~{::#content},~{::title},~{::script})}">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>search Contact</title>
+    <title >Search page</title>
 </head>
 <body>
-     <h1> this is user view SearchCOntact</h1>
-    
+
+    <div id="content">
+        <!-- if user is logged in then show the side bar else not show side bar -->
+        <div th:if="${loggedinUser}">
+            <div data-th-replace="~{user/sidebar::sidebar}"></div>
+        </div>
+    <div  class="p-8 mt-10 sm:pl-54" >   
+         <h1 class="text-5xl mb-2"> Searched Contacts </h1>
+         <p class="text-green-600 dark:text-green-300 rounded" data-th-text="${pageContacts.totalElements}+' results found'"></p> 
+        
+            <div class="contacts_container mt-4 ">
+                
+
+                <div class="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border-3 border-green-600 dark:border-green-500">
+                    <form 
+                       
+                        action=" " data-th-action="@{'/user/contacts/search'}"
+                         data-th-object="${contactSearchForm}">
+                            <div class="flex items-center space-x-3 justify-start flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 p-4">
+                        
+                                <div>
+                                    
+                                
+                                    <select
+                                        data-th-field="*{field}" 
+                                        id="underline_select" class="block py-2.5 ps-0 w-full text-sm text-body bg-white dark:bg-gray-700 border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer">
+                                        <option selected value="">Select Field</option>
+                                        <option value="name">Name</option>
+                                        <option value="phone">Phone</option>
+                                        <option value="email">Email</option>
+                                        
+                                    </select>
+                        
+
+                                </div>
+                                <div class="search_input_container">
+                                    <label for="input-group-1" class="sr-only">Search</label>
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                                            <svg class="w-4 h-4 text-body" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"/></svg>
+                                        </div>
+                                        <input data-th-field="*{value}" type="text" id="input-group-1" class="block w-full max-w-96 ps-9 pe-3 py-2 bg-white dark:bg-gray-700 border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body" placeholder="Search">
+                                    </div>
+                                </div>
+                                <button type="submit" class="px-3 rounded py-2 bg-gray-800 text-white">Search</button>
+                            </div>
+                    </form>
+                    <table
+                     data-th-if="${pageContacts.totalElements>0}"
+                     class="w-full text-sm text-left rtl:text-right text-body">
+                        <thead class="text-sm text-body bg-neutral-secondary-medium border-b border-t border-default-medium">
+                            <tr>
+                               
+                                <th scope="col" class="px-6 py-3 font-medium">
+                                    Name
+                                </th>
+                                <th scope="col" class="px-6 py-3 font-medium">
+                                    Phone
+                                </th>
+                                <th scope="col" class="px-6 py-3 font-medium">
+                                    Links
+                                </th>
+                                <th scope="col" class="px-6 py-3 font-medium">
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                             data-th-object="${c}"
+                             data-th-each="c:${pageContacts.getContent()}"
+                             class="bg-white border-b border-gray-300 dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                
+                                <th scope="row" class="flex items-center px-6 py-4 text-heading whitespace-nowrap">
+                                    <img 
+                                    onerror="this.src='data:image/jpeg;base64,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'"
+                                    data-th-src="*{picture}"
+                                    class="w-10 h-10 rounded-full" src="/docs/images/people/profile-picture-1.jpg" alt="Jese image">
+                                    <div class="ps-3">
+                                        <div 
+                                            data-th-text="*{name}"
+                                            class="text-base font-semibold">Neil Sims
+                                        </div>
+                                        <div
+                                            data-th-text="*{email}" 
+                                            class="font-normal text-body">neil.sims@flowbite.com
+                                        </div>
+                                    </div>  
+                                </th>
+                                <td class="px-6 py-4">
+                                   <i class="fa-solid fa-phone w-4 h-4"></i>
+                                    <span data-th-text="*{phoneNumber}"></span>
+                                
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center">
+                                            <div data-th-if="*{favourite}" >
+                                               <i class="fa-solid fa-star text-orange-500 "></i>
+                                            </div> 
+                                         <a class="pl-2" data-th-href="@{*{linkedInLink}}" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a>
+                                         <a class="p-2" data-th-href="@{*{websiteLink}}" target="_blank"><i class="fa-brands fa-facebook"></i></i></a>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4">
+                                   <div>
+                                        <a href="" class="p-1">
+                                            <i class="fa-solid w-6 h-6 fa-trash"></i>
+                                        </a>
+                                        <a href="" class="p-1">
+                                            <i class="fa-solid fa-pen "></i>
+                                        </a>
+                                        <a href="" class="p-1">
+                                            <i class="fa-solid fa-eye"></i>
+                                        </a>
+
+                                   </div>
+                                </td>
+                            </tr>
+                                                 
+                        </tbody>
+                    </table>
+                    <!-- pagination component -->
+                    <div
+                    data-th-if="${pageContacts.totalElements>0}"
+                    class="pagination_container bg-white  dark:bg-gray-800 p-4 flex justify-center">
+
+                       <nav aria-label="Page navigation example">
+                            <ul class="flex -space-x-px text-sm">
+                                <li data-th-unless="${pageContacts.first}">
+                                <a 
+                                    data-th-href="@{'/user/contacts/search?size='+${pageSize}+'&page='+${pageContacts.number-1}+'&field='+${contactSearchForm.field}+'&value='+${contactSearchForm.value}}"
+                                    href="#" class="flex items-center justify-center text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading font-medium rounded-s-base text-sm w-10 h-10 focus:outline-none">
+                                    <span class="sr-only">Previous</span>
+                                    <svg class="w-4 h-4 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 19-7-7 7-7"/></svg>
+                                </a>
+                                </li>
+                                <li  data-th-each="index : ${#numbers.sequence(0,pageContacts.totalPages-1)}"
+                                     data-th-classappend="${index==pageContacts.number?'bg-blue-100 dark:bg-gray-500': 'bg-white dark:bg-gray-800'}"
+                                >
+                                    <a data-th-href="@{'/user/contacts/search?size='+${pageSize}+'&page='+${index}+'&field='+${contactSearchForm.field}+'&value='+${contactSearchForm.value}}" class="flex items-center justify-center text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading font-medium text-sm w-10 h-10 focus:outline-none">
+
+                                            <span data-th-text="${index+1}"></span>
+                                    </a>
+                                </li>
+                                
+                                <li data-th-unless="${pageContacts.last}">
+                                    <a data-th-href="@{'/user/contacts/search?size='+${pageSize}+'&page='+${pageContacts.number+1}+'&field='+${contactSearchForm.field}+'&value='+${contactSearchForm.value}}" class="flex items-center justify-center text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading font-medium rounded-e-base text-sm w-10 h-10 focus:outline-none">
+                                        <span class="sr-only">Next</span>
+                                        <svg class="w-4 h-4 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7"/></svg>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav> 
+
+                    </div>
+
+                    <h1 class="text-5xl text-center bg-white dark:bg-gray-800 p-4"
+                        data-th-if="${pageContacts.totalElements<=0}">No Result Found</h1>
+                </div>
+
+        </div>
+
+    </div>
+    <script>
+        console.log("this is a profile page page")
+    </script>
 </body>
 </html>
