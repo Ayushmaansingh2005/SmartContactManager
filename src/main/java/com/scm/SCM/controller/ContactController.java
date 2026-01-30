@@ -9,7 +9,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -76,9 +78,7 @@ public class ContactController {
         //image processing
         logger.info("file information : {}",contactform.getContact_image().getOriginalFilename());
 
-        String filename = UUID.randomUUID().toString();
-
-        String fileURL = imageService.uploadImage(contactform.getContact_image(),filename);
+        
         Contact contact = new Contact();
 
         contact.setName(contactform.getName());
@@ -90,8 +90,16 @@ public class ContactController {
         contact.setUser(user);
         contact.setLinkedInLink(contactform.getLinkdinLink());
         contact.setWebsiteLink(contactform.getFacebookLink());
-        contact.setPicture(fileURL);
-        contact.setCloudinaryImagePublicId(filename);
+       
+
+        if(contactform.getContact_image() !=null && !contactform.getContact_image().isEmpty()){
+
+            String filename = UUID.randomUUID().toString();
+            String fileURL = imageService.uploadImage(contactform.getContact_image(),filename);
+
+            contact.setPicture(fileURL);
+            contact.setCloudinaryImagePublicId(filename);
+        }
 
 
         contactService.save(contact);
@@ -175,5 +183,104 @@ public class ContactController {
         logger.info("value {} ",value);
         return "user/searchContact";
     }
+
+
+    //delete contact
+    @RequestMapping("/delete/{contactId}")
+    public String deleteContact(
+        @PathVariable String contactId,
+        HttpSession session
+    ){
+
+        contactService.delete(contactId);
+
+        session.setAttribute("message",
+            Message.builder()
+                .content("Contact is Deleted successfully !! ")
+                .type(MessageType.green)
+                .build()
+        );
+        return "redirect:/user/contacts";
+    }
+
+
+    //update contact form view
+
+    @GetMapping("/view/{contactId}")
+    public String updateContactFormView(
+        @PathVariable String contactId,Model model
+    ){
+
+        var contact = contactService.getById(contactId);
+        ContactForm contactForm = new ContactForm();
+        contactForm.setName(contact.getName());
+        contactForm.setEmail(contact.getEmail());
+        contactForm.setPhoneNumber(contact.getPhoneNumber());
+        contactForm.setAddress(contact.getAddress());
+        contactForm.setDescription(contact.getDescription());
+        contactForm.setFavourite(contact.getFavourite());
+        contactForm.setLinkdinLink(contact.getLinkedInLink());
+        contactForm.setFacebookLink(contact.getWebsiteLink());
+        contactForm.setPicture(contact.getPicture());
+
+
+        model.addAttribute("contactForm",contactForm);
+        model.addAttribute("contsactId",contactId);
+
+        return "user/update_contact_view";
+
+    }
+
+    @RequestMapping(value="/update/{contactId}", method=RequestMethod.POST)
+    public String updateContact( @PathVariable String contactId ,
+        @Valid @ModelAttribute ContactForm contactForm ,BindingResult bindingResult, Model model
+        
+    ){
+
+
+        //updtae contact form
+        
+        if(bindingResult.hasErrors()){
+            return "/user/update_contact_view";
+        }
+
+
+        var con = contactService.getById(contactId);
+        con.setId(contactId);
+        con.setName(contactForm.getName());
+        con.setEmail(contactForm.getEmail());
+        con.setPhoneNumber(contactForm.getPhoneNumber());
+        con.setAddress(contactForm.getAddress());
+        con.setDescription(contactForm.getDescription());
+        con.setFavourite(contactForm.isFavourite());
+        con.setLinkedInLink(contactForm.getLinkdinLink());
+        con.setWebsiteLink(contactForm.getFacebookLink());
+       
+
+        //process picture
+
+        if(contactForm.getContact_image() !=null && !contactForm.getContact_image().isEmpty()){
+            String fileName = UUID.randomUUID().toString();
+            String imageURL = imageService.uploadImage(contactForm.getContact_image(), fileName);
+            con.setPicture(imageURL);
+            contactForm.setPicture(imageURL);
+        }
+
+
+       var updatedCon  = contactService.update(con);
+       model.addAttribute("message",
+            Message.builder()
+                .content("Contact updated !! ")
+                .type(MessageType.blue)
+                .build()
+        );
+       //model.addAttribute("updatedContact",updatedCon);
+        
+
+
+        return "redirect:/user/contacts/view/" + contactId;
+    }
+    
+
     
 }

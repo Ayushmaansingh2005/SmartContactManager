@@ -108,6 +108,7 @@ public class pageController {
         user.setAbout(userForm.getAbout());
         user.setPhoneNumber(userForm.getPhoneNumber());
         user.setProfilePic("https://www.pexels.com/photo/person-holding-camera-1704488/");
+        user.setEnable(false);
         User savedUser = userServices.saveUser(user);
         System.err.println("user saved");
         //message = "registration successfull"

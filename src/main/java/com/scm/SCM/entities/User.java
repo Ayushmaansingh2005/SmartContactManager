@@ -48,6 +48,7 @@ public class User implements UserDetails {
     private boolean enable=true;
     private boolean emailVerified=false;
     private boolean phoneVerified=false;
+    private String emailToken;
 
     //from which means user signup
     @Enumerated(value = EnumType.STRING)

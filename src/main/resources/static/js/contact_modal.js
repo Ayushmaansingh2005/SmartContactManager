@@ -1,4 +1,5 @@
 console.log("contact.js");
+const baseURL="http://localhost:8081";
 
 var contactModal; // ✅ GLOBAL (important)
 
@@ -44,7 +45,7 @@ async function loadContactdata(id){
     console.log(id);
 
     try{
-       const data= await (await fetch(`http://localhost:8081/api/contacts/${id}`)
+       const data= await (await fetch(`${baseURL}/api/contacts/${id}`)
        ).json();
        console.log(data);
        console.log(data.name);
@@ -75,4 +76,35 @@ async function loadContactdata(id){
     }
 
 
+
+}
+
+//delete contact
+
+async function deleteContact(id){
+
+    const swalWithBootstrapButtons = Swal.mixin({
+    customClass: {
+        confirmButton: "btn btn-success",
+        cancelButton: "btn btn-danger"
+    },
+    buttonsStyling: true
+    });
+    swalWithBootstrapButtons.fire({
+    title: "Are you sure?",
+    text: "You won't be able to revert this!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Yes, delete it!",
+    cancelButtonText: "No, cancel!",
+    reverseButtons: true
+    }).then((result) => {
+    if (result.isConfirmed) {
+
+        const url=`${baseURL}/user/contacts/delete/` + id;
+        window.location.replace(url);
+        
+    } 
+    });
+        
 }

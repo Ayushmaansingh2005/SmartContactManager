@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
 import com.scm.SCM.services.impl.SecurityCustomUserDetailService;
 
@@ -36,6 +37,8 @@ public class SecurityConfig {
     @Autowired
     private OauthAuthenticationSuccessHandler handler;
 
+    @Autowired
+    private AuthenticationFailureHandler authenticationFailureHandler;
 
     // configuration of authentication provider for Spring boot
     @Bean
@@ -97,6 +100,8 @@ public class SecurityConfig {
             //     }
                 
             // });
+
+            formLogin.failureHandler(authenticationFailureHandler);
         });
 
 
