@@ -32,6 +32,9 @@ public class UserServiceImpl implements UserServices{
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private Helper helper;
+
     @Override
     public User saveUser(User user) {
         //user id automatic generated
@@ -52,7 +55,7 @@ public class UserServiceImpl implements UserServices{
         String emailToken = UUID.randomUUID().toString();
         user.setEmailToken(emailToken);
         User savedUser =  userRepo.save(user);
-        String emailLink=Helper.getLinkForEmailVerification(emailToken);
+        String emailLink=helper.getLinkForEmailVerification(emailToken);
         emailService.sendEmail(savedUser.getEmail(),"Verify Account : Email Smart Contact Manager",emailLink);
         return savedUser;
     }

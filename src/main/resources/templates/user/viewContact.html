@@ -16,13 +16,10 @@
         <p>List of Contacts that is related to you. </p>
 
         <div class="contacts_container mt-4 ">
-                
 
-                <div class="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border-3 border-green-600 dark:border-green-500">
 
-                    <div data-th-replace="~{message::messagebox}"></div>
-
-                    <form data-th-object="${contactSearchForm}" action=" " data-th-action="@{'/user/contacts/search'}">
+             <div class="flex md:flex-row flex-col justify-between">
+                         <form data-th-object="${contactSearchForm}" action=" " data-th-action="@{'/user/contacts/search'}">
                             <div class="flex items-center space-x-3 justify-start flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 p-4">
                         
                                 <div>
@@ -51,8 +48,19 @@
                                 </div>
                                 <button type="submit" class="px-3 rounded py-2 bg-gray-800 text-white">Search</button>
                             </div>
-                    </form>
-                    <table 
+                        </form>
+
+                       <div class="mt-3  px-4"> <button type="button" onclick="exportData()" class="px-3  rounded py-2 bg-green-800 text-white">Export</button></div>
+
+                    </div>
+                
+
+                <div class="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border-3 border-green-600 dark:border-green-500">
+
+                    <div data-th-replace="~{message::messagebox}"></div>
+
+                   
+                    <table id="contact_table"
                     data-th-if="${pageContacts.totalElements>0}"
                     class="w-full text-sm text-left rtl:text-right text-body">
                         <thead class="text-sm text-body bg-neutral-secondary-medium border-b border-t border-default-medium">
@@ -177,9 +185,17 @@
      </div>
       <div data-th-replace="~{user/ContactModal :: contact}"></div>
   </div>  
+    <script src="https://cdn.jsdelivr.net/npm/@linways/table-to-excel@1.0.4/dist/tableToExcel.min.js"></script>
     <script data-th-src="@{'/js/contact_modal.js'}"></script>
     <script>
-        console.log("this is a profile page page")
+       function exportData(){
+            TableToExcel.convert(document.getElementById("contact_table"), {
+                    name: "contacts.xlsx",
+                    sheet: {
+                        name: "Sheet 1"
+                    }
+            });
+       }
     </script>
 </body>
 </html>

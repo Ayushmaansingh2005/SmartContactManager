@@ -1,5 +1,8 @@
 console.log("contact.js");
-const baseURL="http://localhost:8081";
+
+
+const baseURL="http://scm002.ap-south-1.elasticbeanstalk.com"
+//const baseURL="http://localhost:8081";
 
 var contactModal; // ✅ GLOBAL (important)
 

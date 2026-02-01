@@ -22,23 +22,20 @@ public class RootController {
     private UserServices userService ;
 
     @ModelAttribute
-    public void addLoggedInUserInformation(Model model,Authentication authentication){
-        if(authentication==null){
+    public void addLoggedInUserInformation(Model model, Authentication authentication){
+        if (authentication == null) {
             return;
         }
-        String username =  Helper.getEmailOfLoggedInUser(authentication);
 
-        logger.info("User loged in :{}",username);
+        String username = Helper.getEmailOfLoggedInUser(authentication);
+        User user = userService.getUserByEmail(username);
 
-         //fetc user details from database
-
-         User user = userService.getUserByEmail(username);
-         
-
-        System.out.println(user.getName());
-        System.out.println(user.getEmail());
-
-        model.addAttribute("loggedinUser",user);
-         
+        if (user != null) {
+            // Only print/add to model if user was actually found
+            logger.info("User details loaded for: {}", user.getEmail());
+            model.addAttribute("loggedinUser", user);
+        } else {
+            logger.warn("User authenticated but not found in database: {}", username);
+        }
     }
 }

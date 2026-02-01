@@ -1,5 +1,6 @@
 package com.scm.SCM.controller;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,7 +34,7 @@ public class pageController {
     private UserServices userServices;
 
     @RequestMapping("/home")
-    public String Home(){
+    public String Home( Authentication authentication){
         System.out.println("home page handler");
         return "home";
     }

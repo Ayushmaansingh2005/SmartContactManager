@@ -3,9 +3,11 @@
  class="fixed top-0 left-0 shadow-sm z-40 w-54 h-screen transition-transform -translate-x-full sm:translate-x-0"
  aria-label="Sidebar">
    <div class="h-full pt-20 px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
-      <a data-th-src="@{'/'}" class="flex items-center ps-2.5 mb-5">
+      <a data-th-src="@{'/'}" class="flex flex-col items-center ps-2.5 mb-8">
          <img data-th-src="@{'/images/telephone.png'}" class="h-6 me-3" alt="Flowbite Logo" />
          <span class="self-center text-lg text-heading font-semibold whitespace-nowrap">Welcome To Scm</span>
+
+         <span data-th-text="${loggedinUser.name}"></span>
       </a>
       <ul class="space-y-2 font-medium">
          <li>
@@ -38,13 +40,13 @@
          <li>
             <a href="#" class="flex items-center px-2 py-1.5 text-body rounded-base hover:bg-neutral-tertiary hover:text-fg-brand group">
                <svg class="shrink-0 w-5 h-5 transition duration-75 group-hover:text-fg-brand" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 10V6a3 3 0 0 1 3-3v0a3 3 0 0 1 3 3v4m3-2 .917 11.923A1 1 0 0 1 17.92 21H6.08a1 1 0 0 1-.997-1.077L6 8h12Z"/></svg>
-               <span class=" ms-3 whitespace-nowrap">Products</span>
+               <span class=" ms-3 whitespace-nowrap">Direct Message</span>
             </a>
          </li>
          <li>
             <a href="#" class="flex items-center px-2 py-1.5 text-body rounded-base hover:bg-neutral-tertiary hover:text-fg-brand group">
                <svg class="shrink-0 w-5 h-5 transition duration-75 group-hover:text-fg-brand" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12H4m12 0-4 4m4-4-4-4m3-4h2a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3h-2"/></svg>
-               <span class="ms-3 whitespace-nowrap">Sign In</span>
+               <span class="ms-3 whitespace-nowrap">Feedback</span>
             </a>
          </li>
       </ul>
